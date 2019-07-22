@@ -18,3 +18,22 @@ import './commands'
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
+
+beforeEach(() => {
+    cy.window().then((win) => {
+        cy.wrap(cy.spy(win.console, "error")).as('spyWinConsoleError')
+        cy.wrap(cy.spy(win.console, "warn")).as('spyWinConsoleWarn')
+    })
+})
+
+afterEach( () => {
+    cy.get('@spyWinConsoleError').then((spy) => {
+        expect(spy).to.have.callCount(1)
+
+        // // This the actual intended expect statement for the purposes of failing the test on any errors logged at runtime.
+        // expect(spy).to.have.callCount(0)
+    })
+    cy.get('@spyWinConsoleWarn').then((spy) => {
+        expect(spy).to.have.callCount(0)
+    })
+})

@@ -199,4 +199,8 @@ $(() => {
     // seconds from the unix epoch
     $div.text(new Date().getTime() / 1000)
   })
+
+  $('#log-an-error-div').on('click', () => {
+    console.error('Shaken, not stirred');
+  })
 })
